@@ -7,6 +7,7 @@
   const requests = { active: 0, queue: [] };
   const groupCache = new Map();
   const profileCache = new Map();
+  let snapshotFetchedAt = "";
   let selectedTeam = 0;
   let selectedRound = 0;
   let currentProfile = null;
@@ -94,6 +95,20 @@
     all.sort((a, b) => Number(a.Jornada) - Number(b.Jornada) || String(a.Fecha || "").localeCompare(String(b.Fecha || "")) || Number(a.Partido) - Number(b.Partido));
     groupCache.set(groupId, all);
     return all;
+  }
+
+  async function preloadSnapshot() {
+    try {
+      const response = await fetch(`./matches.json?ts=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) return;
+      const snapshot = await response.json();
+      Object.entries(snapshot.groups || {}).forEach(([groupId, rows]) => {
+        if (Array.isArray(rows)) groupCache.set(String(groupId), rows);
+      });
+      snapshotFetchedAt = snapshot.fetchedAt || "";
+    } catch (error) {
+      console.info("No hay una copia diaria disponible; se consultará Open Data directamente.", error);
+    }
   }
 
   async function loadProfile(profile) {
@@ -431,6 +446,7 @@
   async function loadAllProfiles() {
     setStatus("Consultando los calendarios oficiales…", "loading");
     $("#overview-meta").textContent = `${config.teams.length} equipos · calendario municipal`;
+    await preloadSnapshot();
     const results = await Promise.all(config.teams.map(async (profile) => {
       try { return { data: await loadProfile(profile) }; }
       catch (error) { return { error }; }
@@ -438,7 +454,9 @@
     results.forEach((result, index) => profileCache.set(index, result));
     const connected = results.filter((result) => result.data).length;
     $("#overview-meta").textContent = `${connected} de ${config.teams.length} equipos conectados · próximos encuentros municipales`;
-    setStatus(`${connected}/${config.teams.length} calendarios consultados · ${new Intl.DateTimeFormat("es-ES", { dateStyle: "medium", timeStyle: "short" }).format(new Date())}`, connected ? "success" : "error");
+    const updateDate = snapshotFetchedAt ? new Date(snapshotFetchedAt) : new Date();
+    const updateLabel = snapshotFetchedAt ? "última actualización" : "consulta en directo";
+    setStatus(`${connected}/${config.teams.length} calendarios · ${updateLabel}: ${new Intl.DateTimeFormat("es-ES", { dateStyle: "medium", timeStyle: "short", timeZone: "Europe/Madrid" }).format(updateDate)}`, connected ? "success" : "error");
     renderUpcoming();
     const firstAvailable = results.findIndex((result) => result.data);
     selectProfile(firstAvailable >= 0 ? firstAvailable : 0, false);
