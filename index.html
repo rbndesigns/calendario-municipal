@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101e34" />
+    <meta name="description" content="Próximos partidos, resultados y clasificación de HA Basket en los Juegos Deportivos Municipales." />
+    <title>HA Basket · Próximos partidos</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="masthead-inner">
+        <a class="brand" href="#inicio" aria-label="HA Basket, inicio">
+          <span class="brand-mark" aria-hidden="true">HA</span>
+          <span class="brand-copy"><strong>HA <b>BASKET</b></strong><small>GRUPO DE DEPORTES MADRID</small></span>
+        </a>
+        <a class="source-button" href="https://datos.madrid.es/dataset/211549-0-juegos-deportivos-actual" target="_blank" rel="noreferrer">OPEN DATA MADRID <span>↗</span></a>
+      </div>
+    </header>
+
+    <main class="page-shell" id="inicio">
+      <section class="overview" aria-labelledby="home-title">
+        <div class="overview-heading">
+          <div>
+            <p class="eyebrow">LA TEMPORADA, JORNADA A JORNADA</p>
+            <h1 id="home-title">PRÓXIMOS PARTIDOS</h1>
+            <p class="overview-meta" id="overview-meta">Cargando calendario municipal…</p>
+          </div>
+          <p class="data-status" id="data-status" role="status" aria-live="polite">Conectando con Open Data del Ayuntamiento de Madrid…</p>
+        </div>
+        <div class="upcoming-grid" id="upcoming-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="detail-section" id="team-detail" aria-labelledby="team-title">
+        <div class="detail-heading">
+          <div>
+            <p class="eyebrow">CALENDARIO Y CLASIFICACIÓN</p>
+            <h2 id="team-title"></h2>
+            <p class="team-category" id="team-category"></p>
+            <p class="season" id="season-title"></p>
+          </div>
+          <label class="team-picker-label" for="team-picker">CONSULTAR EQUIPO
+            <select id="team-picker" aria-label="Seleccionar equipo"></select>
+          </label>
+        </div>
+
+        <section class="card featured-match" aria-labelledby="featured-title">
+          <div class="round-nav">
+            <button id="previous-round" class="round-button" type="button" aria-label="Ver jornada anterior">← <span>Anterior</span></button>
+            <h3 id="featured-title" aria-live="polite"></h3>
+            <button id="next-round" class="round-button" type="button" aria-label="Ver jornada siguiente"><span>Siguiente</span> →</button>
+          </div>
+          <div class="matchup" id="featured-match"></div>
+          <a class="venue-link" id="venue-link" target="_blank" rel="noreferrer" hidden></a>
+        </section>
+
+        <section class="card results-card" aria-labelledby="results-title">
+          <div class="section-heading"><p class="eyebrow">JORNADA SELECCIONADA</p><h3 id="results-title">Resultados</h3></div>
+          <div class="results-list" id="results-list"></div>
+        </section>
+
+        <section class="card standings-card" aria-labelledby="standings-title">
+          <div class="section-heading"><p class="eyebrow">TEMPORADA</p><h3 id="standings-title">Clasificación</h3><p class="standings-caption" id="standings-caption"></p></div>
+          <div class="table-scroll" tabindex="0" aria-label="Clasificación; desliza horizontalmente para ver todas las estadísticas">
+            <table>
+              <thead><tr><th scope="col">#</th><th scope="col">Equipo</th><th scope="col">PJ</th><th scope="col">PG</th><th scope="col">PP</th><th scope="col">Win%</th><th scope="col">Pts+</th><th scope="col">Pts−</th><th scope="col">Dif.</th></tr></thead>
+              <tbody id="standings-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <footer class="site-footer"><span id="footer-source"></span><a href="https://datos.madrid.es/dataset/211549-0-juegos-deportivos-actual" target="_blank" rel="noreferrer">Fuente: Open Data Madrid</a><a id="contact-link">Contacto</a></footer>
+    </main>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
