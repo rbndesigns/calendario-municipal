@@ -61,5 +61,5 @@ const snapshot = {
   fetchedAt: new Date().toISOString(),
   groups: recordsByGroup
 };
-writeFileSync(new URL("../matches.json", import.meta.url), `${JSON.stringify(snapshot)}\n`, "utf8");
+writeFileSync(new URL("../matches.js", import.meta.url), `window.MATCHES_SNAPSHOT = ${JSON.stringify(snapshot)};\n`, "utf8");
 console.log(`Copia guardada: ${groups.length} grupos; ${Object.values(recordsByGroup).reduce((sum, rows) => sum + rows.length, 0)} partidos.`);
