@@ -6,7 +6,7 @@ window.LEAGUE = {
   season: "Temporada actual",
   leagueName: "Grupo municipal",
   category: "BALONCESTO",
-  sourceNote: "Datos oficiales del Ayuntamiento de Madrid · actualización semanal",
+  sourceNote: "Datos oficiales del Ayuntamiento de Madrid · actualización diaria a las 20:15",
   contactLabel: "Contacto",
   contactUrl: "",
   openData: {
@@ -23,3 +23,4 @@ window.LEAGUE = {
     { id: "ha-sesi-alevin", name: "HA BASKET SESI", label: "HA BASKET SESI · Alevín mixto", groupName: "JDM CEN SAB MAÑ MBC ALE MIX Samaranch", groupId: "30639", color: "#f1b64a", initials: "HS" }
   ]
 };
+
