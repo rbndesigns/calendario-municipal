@@ -97,18 +97,13 @@
     return all;
   }
 
-  async function preloadSnapshot() {
-    try {
-      const response = await fetch(`./matches.json?ts=${Date.now()}`, { cache: "no-store" });
-      if (!response.ok) return;
-      const snapshot = await response.json();
-      Object.entries(snapshot.groups || {}).forEach(([groupId, rows]) => {
-        if (Array.isArray(rows)) groupCache.set(String(groupId), rows);
-      });
-      snapshotFetchedAt = snapshot.fetchedAt || "";
-    } catch (error) {
-      console.info("No hay una copia diaria disponible; se consultará Open Data directamente.", error);
-    }
+  function preloadSnapshot() {
+    const snapshot = window.MATCHES_SNAPSHOT;
+    if (!snapshot) return;
+    Object.entries(snapshot.groups || {}).forEach(([groupId, rows]) => {
+      if (Array.isArray(rows)) groupCache.set(String(groupId), rows);
+    });
+    snapshotFetchedAt = snapshot.fetchedAt || "";
   }
 
   async function loadProfile(profile) {
@@ -446,7 +441,7 @@
   async function loadAllProfiles() {
     setStatus("Consultando los calendarios oficiales…", "loading");
     $("#overview-meta").textContent = `${config.teams.length} equipos · calendario municipal`;
-    await preloadSnapshot();
+    preloadSnapshot();
     const results = await Promise.all(config.teams.map(async (profile) => {
       try { return { data: await loadProfile(profile) }; }
       catch (error) { return { error }; }
