@@ -62,4 +62,14 @@ const snapshot = {
   groups: recordsByGroup
 };
 writeFileSync(new URL("../matches.js", import.meta.url), `window.MATCHES_SNAPSHOT = ${JSON.stringify(snapshot)};\n`, "utf8");
+const cacheVersion = String(Date.now());
+const indexUrl = new URL("../index.html", import.meta.url);
+let html = readFileSync(indexUrl, "utf8");
+for (const asset of ["data.js", "matches.js", "app.js"]) {
+  const pattern = new RegExp(`(<script src=")${asset.replace(".", "\\.")}(?:\\?v=\\d+)?("><\\/script>)`);
+  const updated = html.replace(pattern, `$1${asset}?v=${cacheVersion}$2`);
+  if (updated === html && !html.includes(`${asset}?v=${cacheVersion}`)) throw new Error(`No se pudo versionar ${asset} en index.html.`);
+  html = updated;
+}
+writeFileSync(indexUrl, html, "utf8");
 console.log(`Copia guardada: ${groups.length} grupos; ${Object.values(recordsByGroup).reduce((sum, rows) => sum + rows.length, 0)} partidos.`);
