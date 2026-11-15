@@ -1,6 +1,6 @@
 # Liga municipal
 
-Página estática para GitHub Pages inspirada en la referencia. Cada día a las 20:15 (hora peninsular de Madrid), GitHub Actions consulta el portal Open Data del Ayuntamiento y publica `matches.json`; la página usa esa copia y muestra cuándo se actualizó. Si la copia diaria aún no existe o falla la carga, consulta Open Data directamente mediante JSONP.
+Página estática para GitHub Pages inspirada en la referencia. Cada día a las 20:15 (hora peninsular de Madrid), GitHub Actions consulta el portal Open Data del Ayuntamiento y publica `matches.js`; la página usa esa copia y muestra cuándo se actualizó. Si la copia diaria aún no existe, consulta Open Data directamente mediante JSONP.
 
 ## Equipos configurados
 
