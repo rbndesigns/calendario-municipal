@@ -1,6 +1,6 @@
 # Liga municipal
 
-Página estática para GitHub Pages inspirada en la referencia. No requiere servidor ni dependencias: al abrirla consulta mediante JSONP el API CKAN del Ayuntamiento de Madrid, un acceso entre dominios documentado por el portal.
+Página estática para GitHub Pages inspirada en la referencia. Cada día a las 20:15 (hora peninsular de Madrid), GitHub Actions consulta el portal Open Data del Ayuntamiento y publica `matches.json`; la página usa esa copia y muestra cuándo se actualizó. Si la copia diaria aún no existe o falla la carga, consulta Open Data directamente mediante JSONP.
 
 ## Equipos configurados
 
@@ -8,9 +8,9 @@ Página estática para GitHub Pages inspirada en la referencia. No requiere serv
 
 La portada abre directamente en **PRÓXIMOS PARTIDOS**, con tarjetas de los siguientes encuentros de los seis equipos. Al seleccionar una tarjeta se abre debajo el detalle, los resultados por jornada y la clasificación.
 
-No hace falta escribir jornadas, fechas, pabellones ni marcadores. El programa los descarga de la temporada vigente. La clasificación se calcula a partir de partidos finalizados (`Estado` F o N); las actas pendientes no cuentan todavía.
+No hace falta escribir jornadas, fechas, pabellones ni marcadores. El proceso programado descarga los partidos vigentes de los grupos configurados. La clasificación se calcula a partir de partidos finalizados (`Estado` F o N); las actas pendientes no cuentan todavía.
 
-El Ayuntamiento actualiza el conjunto semanalmente, normalmente los miércoles. La página consulta la última publicación cada vez que se abre; GitHub Pages no ejecuta un servidor propio.
+El Ayuntamiento actualiza el conjunto semanalmente, normalmente los miércoles. El refresco diario publica los datos oficiales disponibles en ese momento; si el Ayuntamiento aún no ha publicado cambios, el contenido seguirá igual. GitHub Actions ajusta el horario entre verano e invierno de Madrid.
 
 ## Publicar en GitHub Pages
 
@@ -19,4 +19,3 @@ El sitio se sirve desde la rama `main`, carpeta `/ (root)`.
 ## Fuente y atribución
 
 Los partidos proceden de [Competiciones deportivas municipales de deportes colectivos · temporada en curso](https://datos.madrid.es/dataset/211549-0-juegos-deportivos-actual), recurso CSV `211549-0-juegos-deportivos-actual-csv`, con licencia CC BY 4.0. El pie de la página enlaza al portal.
-
